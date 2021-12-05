@@ -1,0 +1,29 @@
+# 
+@baseUrl=http://localhost:7001/api
+# @baseUrl=http://localhost:8080/api
+
+### Get all platforms
+GET {{baseUrl}}/platform
+Content-Type: application/json
+
+### Get a platform by id
+GET {{baseUrl}}/platform/1
+Content-Type: application/json
+
+
+
+
+
+### Create a platform
+POST {{baseUrl}}/platform
+Content-Type: application/json
+
+{
+  "name": "New Platform",
+  "publisher": "New publisher",
+  "cost": "New cost"
+}
+
+
+
+

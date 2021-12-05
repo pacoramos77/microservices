@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using PlatformService.Data;
 
+
+Console.WriteLine("********************************************************");
+
 (new StartupConfiguration(args))
   .Start();
 
@@ -22,8 +25,6 @@ public class StartupConfiguration
 
   private void ConfigureServices(IServiceCollection services)
   {
-    // Add services to the container.
-
     services.AddDbContext<AppDbContext>(options =>
         options.UseInMemoryDatabase("InMem"));
 
@@ -45,7 +46,7 @@ public class StartupConfiguration
       app.UseSwaggerUI();
     }
 
-    app.UseHttpsRedirection();
+    // app.UseHttpsRedirection();
 
     app.UseAuthorization();
 

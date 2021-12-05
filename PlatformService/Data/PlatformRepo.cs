@@ -20,10 +20,14 @@ namespace PlatformService.Data
 
     public IEnumerable<Platform> GetAllPlatforms() => _context.Platforms.ToList();
 
-    public Platform GetPlatformById(int id) =>
-      _context.Platforms.FirstOrDefault(p => p.Id == id)
-        ?? throw new KeyNotFoundException();
+    public Platform? GetPlatformById(int id)
+    {
+      return _context.Platforms.FirstOrDefault(p => p.Id == id);
+    }
 
-    public bool SaveChanges() => (_context.SaveChanges() >= 0);
+    public bool SaveChanges()
+    {
+      return (_context.SaveChanges() >= 0);
+    }
   }
 }
