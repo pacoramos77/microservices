@@ -1,6 +1,6 @@
 # 
-@baseUrl=http://localhost:7001/api
-# @baseUrl=http://localhost:8080/api
+#@baseUrl=http://localhost:7001/api
+@baseUrl=http://localhost:32726/api
 
 ### Get all platforms
 GET {{baseUrl}}/platform
@@ -19,7 +19,7 @@ POST {{baseUrl}}/platform
 Content-Type: application/json
 
 {
-  "name": "New Platform",
+  "name": "New Platfordm",
   "publisher": "New publisher",
   "cost": "New cost"
 }

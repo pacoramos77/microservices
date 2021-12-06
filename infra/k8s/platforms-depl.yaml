@@ -16,3 +16,17 @@ spec:
         - name: platformservice
           image: pacor2010/platformservice:latest
           imagePullPolicy: Never
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: platforms-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: platformservice
+  ports:
+    - name: platformservice
+      protocol: TCP
+      port: 80
+      targetPort: 80

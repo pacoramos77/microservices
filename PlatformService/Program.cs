@@ -1,8 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PlatformService.Data;
-
-
-Console.WriteLine("********************************************************");
+using PlatformService.SyncDataServices.Http;
 
 (new StartupConfiguration(args))
   .Start();
@@ -19,6 +17,7 @@ public class StartupConfiguration
   {
     ConfigureServices(builder.Services);
     var app = builder.Build();
+    Console.WriteLine($"--> CommandService Endpoint {app.Configuration["CommandService"]}");
     Configure(app);
     app.Run();
   }
@@ -29,11 +28,15 @@ public class StartupConfiguration
         options.UseInMemoryDatabase("InMem"));
 
     services.AddScoped<IPlatformRepo, PlatformRepo>();
+    services.AddHttpClient<ICommandDataClient, HttpCommandDataclient>();
+
     services.AddControllers();
     services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     services.AddEndpointsApiExplorer();
     services.AddSwaggerGen();
+
+
   }
 
   private void Configure(WebApplication app)
@@ -51,6 +54,8 @@ public class StartupConfiguration
     app.UseAuthorization();
 
     app.MapControllers();
+
+
 
     PrepDb.PrepPopulation(app);
   }

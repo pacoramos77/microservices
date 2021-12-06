@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: platformnpservice-srv
+  name: platform-np-service-srv
 spec:
   type: NodePort
   selector:

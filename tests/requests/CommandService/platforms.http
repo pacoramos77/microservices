@@ -1,0 +1,11 @@
+# 
+@baseUrl=http://localhost:7002/api/c
+# @baseUrl=http://localhost:8080/api/c
+
+### test
+POST {{baseUrl}}/platforms
+Content-Type: application/json
+
+
+
+
