@@ -33,3 +33,8 @@ dotnet add package Microsoft.EntityFrameworkCore.SqlServer
 ```cmd
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.1.0/deploy/static/provider/cloud/deploy.yaml
 ```
+### Create secret mssql password
+```
+kubectl create secret generic mssql --from-literal="SA_PASSWORD="pa55w0rd!"
+
+```

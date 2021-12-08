@@ -7,16 +7,23 @@ using PlatformService.SyncDataServices.Http;
 
 public class StartupConfiguration
 {
-  WebApplicationBuilder builder;
+  readonly WebApplicationBuilder _builder;
+  readonly IWebHostEnvironment _env;
+  readonly ConfigurationManager _configuration;
+
   public StartupConfiguration(string[] args)
   {
-    builder = WebApplication.CreateBuilder(args);
+    _builder = WebApplication.CreateBuilder(args);
+    _env = _builder.Environment;
+    _configuration = _builder.Configuration;
   }
 
   public void Start()
   {
-    ConfigureServices(builder.Services);
-    var app = builder.Build();
+    ConfigureServices(_builder.Services);
+
+    var app = _builder.Build();
+
     Console.WriteLine($"--> CommandService Endpoint {app.Configuration["CommandService"]}");
     Configure(app);
     app.Run();
@@ -24,8 +31,18 @@ public class StartupConfiguration
 
   private void ConfigureServices(IServiceCollection services)
   {
-    services.AddDbContext<AppDbContext>(options =>
-        options.UseInMemoryDatabase("InMem"));
+    if (_env.IsProduction())
+    {
+      services.AddDbContext<AppDbContext>(options =>
+          options.UseSqlServer(
+            _configuration.GetConnectionString("Platforms")));
+    }
+    else
+    {
+      Console.WriteLine("--> Using InMemory Database");
+      services.AddDbContext<AppDbContext>(options =>
+          options.UseInMemoryDatabase("InMem"));
+    }
 
     services.AddScoped<IPlatformRepo, PlatformRepo>();
     services.AddHttpClient<ICommandDataClient, HttpCommandDataclient>();
@@ -57,7 +74,7 @@ public class StartupConfiguration
 
 
 
-    PrepDb.PrepPopulation(app);
+    PrepDb.PrepPopulation(app, _env.IsProduction());
   }
 
 }

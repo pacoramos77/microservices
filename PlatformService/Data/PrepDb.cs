@@ -5,17 +5,32 @@ namespace PlatformService.Data
 {
   public class PrepDb
   {
-    public static void PrepPopulation(IApplicationBuilder app)
+    public static void PrepPopulation(IApplicationBuilder app, bool isProd)
     {
       using (var serviceScope = app.ApplicationServices.CreateScope())
       {
 
-        SeedData(serviceScope.ServiceProvider.GetService<AppDbContext>());
+        var context = serviceScope.ServiceProvider.GetService<AppDbContext>();
+        SeedData(context!, isProd);
       }
     }
 
-    private static void SeedData(AppDbContext? context)
+    private static void SeedData(AppDbContext context, bool isProd)
     {
+      if (isProd)
+      {
+        try
+        {
+
+          Console.WriteLine("--> Attempting to apply migrations...");
+          context.Database.EnsureCreated();
+        }
+        catch (Exception ex)
+        {
+          Console.WriteLine($"--> Could not run migrations: {ex.Message}");
+        }
+      }
+
       if (!context!.Platforms.Any())
       {
         Console.WriteLine("--> Seeding data...");
