@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using PlatformService.Models;
 
 namespace PlatformService.Data
@@ -10,8 +10,8 @@ namespace PlatformService.Data
       using (var serviceScope = app.ApplicationServices.CreateScope())
       {
 
-        var context = serviceScope.ServiceProvider.GetService<AppDbContext>();
-        SeedData(context!, isProd);
+        var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
+        SeedData(context, isProd);
       }
     }
 
@@ -23,7 +23,7 @@ namespace PlatformService.Data
         {
 
           Console.WriteLine("--> Attempting to apply migrations...");
-          context.Database.EnsureCreated();
+          context.Database.Migrate();
         }
         catch (Exception ex)
         {

@@ -1,6 +1,6 @@
 # 
 #@baseUrl=http://localhost:7001/api
-@baseUrl=http://localhost:32726/api
+@baseUrl=http://acme.com/api
 
 ### Get all platforms
 GET {{baseUrl}}/platform

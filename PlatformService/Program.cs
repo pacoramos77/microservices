@@ -26,6 +26,7 @@ public class StartupConfiguration
 
     Console.WriteLine($"--> CommandService Endpoint {app.Configuration["CommandService"]}");
     Configure(app);
+    PrepDb.PrepPopulation(app, _env.IsProduction());
     app.Run();
   }
 
@@ -33,6 +34,7 @@ public class StartupConfiguration
   {
     if (_env.IsProduction())
     {
+      Console.WriteLine("--> Using SqlServer Database");
       services.AddDbContext<AppDbContext>(options =>
           options.UseSqlServer(
             _configuration.GetConnectionString("Platforms")));
@@ -74,7 +76,6 @@ public class StartupConfiguration
 
 
 
-    PrepDb.PrepPopulation(app, _env.IsProduction());
   }
 
 }
